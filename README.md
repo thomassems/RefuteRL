@@ -4,7 +4,7 @@ RefuteRL is a benchmark and RL environment for finding counterexamples to math c
 
 A model gets a claim, such as "every n with property P also has property Q", and tries to break it. It can run Python in a sandbox to search, then submits a candidate. A checker decides whether the candidate really breaks the claim, and that decides the reward.
 
-The project is at an early stage. The layout is in place, but most modules are still empty.
+The project is at an early stage. You can run a model against the claims and get scored results. The claim set is still tiny and the claim generators are not written yet.
 
 ## How it works
 
@@ -30,6 +30,26 @@ Run the tests and linter:
 uv run pytest
 uv run ruff check .
 ```
+
+The sandbox tests are skipped if Docker is not running or the image is not built.
+
+## Running an eval
+
+Copy `.env.example` to `.env` and add your DeepSeek API key. Then:
+
+```bash
+uv run refuterl-eval --profile quick --limit 1
+```
+
+Useful options:
+
+- `--model deepseek-v4-pro` to use the larger model (default is `deepseek-flash`)
+- `--profile standard` for the full budget (10 code runs, 30 seconds each)
+- `--no-tools` to test reasoning alone, without code
+- `--claim <id>` to run one claim
+- `--provider claude --model <name>` to run Claude instead (needs `ANTHROPIC_API_KEY`)
+
+Each run writes one JSON line per claim to `results/` and prints a summary.
 
 ## Layout
 

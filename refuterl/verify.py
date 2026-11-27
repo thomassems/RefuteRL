@@ -39,6 +39,9 @@ class Verdict(StrEnum):
     INVALID_FORMAT = "invalid_format"
     CHECKER_TIMEOUT = "checker_timeout"
     CHECKER_ERROR = "checker_error"
+    # Set by the eval loop, not by verify(): the model said "none", never
+    # submitted, or ran out of turns.
+    NO_ANSWER = "no_answer"
 
 
 @dataclass(frozen=True)
